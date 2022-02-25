@@ -1,3 +1,5 @@
+import asyncHandler from "express-async-handler";
+
 /**
  * @param  {} req
  * @param  {} res
@@ -5,9 +7,9 @@
  * @route GET /api/goals
  * @access Private
  */
-const getGoals = (req, res) => {
+const getGoals = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Get goals" });
-};
+});
 
 /**
  * @param  {} req
@@ -16,9 +18,13 @@ const getGoals = (req, res) => {
  * @route POST /api/goals
  * @access Private
  */
-const postGoal = (req, res) => {
+const postGoal = asyncHandler(async (req, res) => {
+  if (!req.body.text) {
+    res.status(400);
+    throw new Error("Please add a text field");
+  }
   res.status(200).json({ message: "Set goal" });
-};
+});
 
 /**
  * @param  {} req
@@ -27,9 +33,9 @@ const postGoal = (req, res) => {
  * @route PUT /api/goals
  * @access Private
  */
-const updateGoal = (req, res) => {
+const updateGoal = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Update goal ${req.params.id}` });
-};
+});
 
 /**
  * @param  {} req
@@ -38,8 +44,8 @@ const updateGoal = (req, res) => {
  * @route DELETE /api/goals
  * @access Private
  */
-const deleteGoal = (req, res) => {
+const deleteGoal = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Delete goal ${req.params.id}` });
-};
+});
 
 export default { getGoals, postGoal, updateGoal, deleteGoal };

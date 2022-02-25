@@ -23,6 +23,7 @@
     "dotenv": "^10.0.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "express-async-handler": "^1.2.0",
     "express-rate-limit": "^5.5.1",
     "express-session": "^1.17.2",
     "express-winston": "^4.2.0",
