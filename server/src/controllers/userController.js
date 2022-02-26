@@ -5,6 +5,16 @@ import config from "../config";
 import User from "../models/userModel";
 
 /**
+ * @param  {} id
+ * @desc Generate JWT token configuration function
+ * @access private
+ */
+const generateToken = (id) =>
+  jwt.sign({ id }, config.JWT_SECRET_TOKEN, {
+    expiresIn: config.JWT_SECRET_TOKEN_EXPIRE,
+  });
+
+/**
  * @param  {} req
  * @param  {} res
  * @desc Register new user
@@ -41,22 +51,12 @@ const register = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id),
     });
   } else {
     res.status(400).json({ message: "Invalid user data" });
   }
 });
-
-// ? Generate JWT token configuration function
-/**
- * @param  {} id
- * @desc Generate JWT token configuration function
- * @access private
- */
-const generateToken = (id) =>
-  jwt.sign({ id }, config.JWT_SECRET_TOKEN, {
-    expiresIn: config.JWT_SECRET_TOKEN_EXPIRE,
-  });
 
 /**
  * @param  {} req
