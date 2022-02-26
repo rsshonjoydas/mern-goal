@@ -4,9 +4,9 @@
     {
       "type": "npm",
       "script": "start",
-      "path": "client/",
+      "path": "server/",
       "problemMatcher": [],
-      "label": "npm: start - client",
+      "label": "npm: start - server",
       "detail": "nodemon -r esm ./src/server.js"
     }
   ]
