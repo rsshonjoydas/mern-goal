@@ -1,5 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaUser } from "react-icons/fa"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+import Spinner from "../components/Spinner"
+import { login, reset } from "../features/auth/authSlice"
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +13,24 @@ const Register = () => {
   })
 
   const { email, password } = formData
+
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const { user, isLoading, isSuccess, isError, message } = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+
+    if (isSuccess || user) {
+      navigate('/')
+    }
+
+    dispatch(reset())
+  }, [user, isLoading, isSuccess, isError, message, navigate, dispatch])
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -18,6 +41,17 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault()
+
+    const userData = {
+      email,
+      password,
+    }
+
+    dispatch(login(userData))
+  }
+
+  if (isLoading) {
+    return <Spinner />
   }
 
   return (
@@ -44,7 +78,7 @@ const Register = () => {
           </div>
           <div className="form-group">
             <input
-              type="text"
+              type="password"
               className="form-control"
               id="password"
               name="password"
