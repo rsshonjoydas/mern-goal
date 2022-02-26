@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Goal from "../models/goalModel";
+import User from "../models/userModel";
 
 /**
  * @param  {} req
@@ -46,6 +47,18 @@ const updateGoal = asyncHandler(async (req, res) => {
 
   if (!goal) {
     res.status(400).json({ message: "Goal not found" });
+  }
+
+  const user = await User.findById(req.user.id);
+
+  // ? Check for user
+  if (!user) {
+    res.status(401).json({ message: "User not found" });
+  }
+
+  // ? Make sure the logged in user matches the goal user
+  if (goal.user.toString() !== user.id) {
+    res.status(401).json({ message: "User not authorized" });
   }
 
   const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
