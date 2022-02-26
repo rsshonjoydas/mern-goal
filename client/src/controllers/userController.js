@@ -92,10 +92,16 @@ const login = asyncHandler(async (req, res) => {
  * @param  {} res
  * @desc Get user information
  * @route GET /api/users/me
- * @access public
+ * @access private
  */
 const getMe = asyncHandler(async (req, res) => {
-  res.json({ message: "get user information" });
+  const { _id, name, email } = await User.findById(req.user.id);
+
+  res.status(200).json({
+    id: _id,
+    name,
+    email,
+  });
 });
 
 export default { register, login, getMe };
