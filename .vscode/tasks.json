@@ -16,6 +16,13 @@
       "problemMatcher": [],
       "label": "npm: start - client",
       "detail": "react-scripts start"
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "npm: dev",
+      "detail": "concurrently \"npm run server\" \"npm run client\""
     }
   ]
 }
