@@ -1,5 +1,7 @@
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
+import jwt from "jsonwebtoken";
+import config from "../config";
 import User from "../models/userModel";
 
 /**
@@ -45,12 +47,24 @@ const register = asyncHandler(async (req, res) => {
   }
 });
 
+// ? Generate JWT token configuration function
+/**
+ * @param  {} id
+ * @desc Generate JWT token configuration function
+ * @access private
+ */
+const generateToken = (id) =>
+  jwt.sign({ id }, config.JWT_SECRET_TOKEN, {
+    expiresIn: config.JWT_SECRET_TOKEN_EXPIRE,
+  });
+
 /**
  * @param  {} req
  * @param  {} res
  * @desc Authenticate a user
  * @route POST /api/users/login
  * @access public
+ * @function Generate JWT Token {@link generateToken}
  */
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -66,6 +80,7 @@ const login = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id),
     });
   } else {
     res.json({ message: "Invalid credentials" });
