@@ -53,7 +53,23 @@ const register = asyncHandler(async (req, res) => {
  * @access public
  */
 const login = asyncHandler(async (req, res) => {
-  res.json({ message: "login user" });
+  const { email, password } = req.body;
+
+  // ? Check for user email
+  const user = await User.findOne({ email });
+
+  // ? Check for user password
+  const checkPassword = await bcrypt.compare(password, user.password);
+
+  if (user && checkPassword) {
+    res.json({
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.json({ message: "Invalid credentials" });
+  }
 });
 
 /**
