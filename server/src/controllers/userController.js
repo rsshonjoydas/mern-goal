@@ -8,6 +8,7 @@ import User from "../models/userModel";
  * @param  {} id
  * @desc Generate JWT token configuration function
  * @access private
+ * @function uses from {@link register} {@link login}
  */
 const generateToken = (id) =>
   jwt.sign({ id }, config.JWT_SECRET_TOKEN, {
@@ -20,6 +21,7 @@ const generateToken = (id) =>
  * @desc Register new user
  * @route POST /api/users
  * @access public
+ * @function Generate JWT Token {@link generateToken}
  */
 const register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -95,13 +97,7 @@ const login = asyncHandler(async (req, res) => {
  * @access private
  */
 const getMe = asyncHandler(async (req, res) => {
-  const { _id, name, email } = await User.findById(req.user.id);
-
-  res.status(200).json({
-    id: _id,
-    name,
-    email,
-  });
+  res.status(200).json(req.user);
 });
 
 export default { register, login, getMe };
