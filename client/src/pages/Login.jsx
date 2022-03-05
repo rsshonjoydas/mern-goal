@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { FaUser } from "react-icons/fa"
+import { FaSignInAlt } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -13,7 +13,6 @@ const Register = () => {
   })
 
   const { email, password } = formData
-
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -58,7 +57,7 @@ const Register = () => {
     <>
       <section className="heading">
         <h1>
-          <FaUser /> Login
+          <FaSignInAlt /> Login
         </h1>
         <p>Login and start your goals</p>
       </section>

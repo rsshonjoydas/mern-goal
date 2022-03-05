@@ -11,7 +11,12 @@ const initialState = {
   isError: false,
   message: ''
 }
-
+/**
+ * @param  {} 'auth/register'
+ * @param  {} async(user
+ * @param  {} thunkAPI
+ * @desc Create new user
+ */
 export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
   try {
     return await authService.register(user)
@@ -26,6 +31,12 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
   }
 })
 
+/**
+ * @param  {} 'auth/login'
+ * @param  {} async(user
+ * @param  {} thunkAPI
+ * @desc user authorization
+ */
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
     return await authService.login(user)
@@ -40,6 +51,11 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   }
 })
 
+/**
+ * @param  {} 'auth/logout'
+ * @param  {} async(
+ * @desc User Logout
+ */
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout()
 })
